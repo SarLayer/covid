@@ -1,0 +1,69 @@
+<div class="country-info">
+  <div class="country-info-title">{{"Select country to see today's Covid information"}}</div>
+  <div class="country-info-select">
+    <div class="country-info-select-first">
+      <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Country</mat-label>
+          <input type="text"
+                 placeholder="Pick one"
+                 aria-label="Country"
+                 matInput
+                 [formControl]="myControl"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              <div (click)="selectCountry(option)">
+                {{option}}
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+
+      <div *ngIf="selectedCountry">
+        <div>{{"confirmed - " + selectedCountry.confirmed}}</div>
+        <div>{{"recovered - " + selectedCountry.recovered}}</div>
+        <div>{{"deaths - " + selectedCountry.deaths}}</div>
+        <div>{{percentOfVaccinated != 'NaN' ? percentOfVaccinated + '% of ' + selectedCountry.population + ' people' : "There is no information about vaccinated for today"}}</div>
+      </div>
+    </div>
+    <div class="country-info-select-second">
+      <form class="example-form" *ngIf="cities?.length &&  cities.length > 1">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>City</mat-label>
+          <input type="text"
+                 placeholder="Pick one"
+                 aria-label="City"
+                 matInput
+                 [formControl]="myControlCity"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let optionCity of filteredOptionsCity | async" [value]="optionCity">
+              <div (click)="selectCity(optionCity)">
+                {{optionCity}}
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+
+
+      <div *ngIf="selectedCity">
+        <div>{{"confirmed - " + selectedCity.confirmed}}</div>
+        <div>{{"recovered - " + selectedCity.recovered}}</div>
+        <div>{{"deaths - " + selectedCity.deaths}}</div>
+      </div>
+    </div>
+  </div>
+  <highcharts-chart *ngIf="show"
+                    [Highcharts]="highcharts"
+                    [options]="chartOptions"
+                    style="width: 100%; height: 400px; display: block;">
+  </highcharts-chart>
+  <highcharts-chart *ngIf="showConfirmed"
+                    [Highcharts]="highcharts"
+                    [options]="chartOptionsConfirmed"
+                    style="width: 100%; height: 400px; display: block;">
+  </highcharts-chart>
+</div>

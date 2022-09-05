@@ -1,0 +1,13 @@
+<div class="header">
+  <a class="header__avatar" *ngIf="authService.userLoggedIn && authService.loggedInUser?.login">
+    <div class="header__avatar-info">
+      <img class="header__avatar__image" src="{{authService.loggedInUser?.avatar_url }}" alt="">
+      <p class="header__avatar__name">{{ authService.loggedInUser?.login }}</p></div>
+    <div class="header-logout" href="" (click)="logout()">
+      {{'logout'}}
+    </div>
+  </a>
+</div>
+<app-country-information *ngIf="countries?.length" [options]="countries">
+
+</app-country-information>
